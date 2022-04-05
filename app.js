@@ -39,9 +39,14 @@ app.get('/api/datastore/:universeId/:dataStoreName/:entryKey/:scope', async func
         return res.send(error);
     }
 
-    let data = await res.json();
-
-    res.send(data);
+    //* Format and send the data.
+    try{
+        let data = await response.json();
+        res.send(data);
+    }catch(error){
+        res.send({response: response, error: error});
+    }
+    
 });
 
 
