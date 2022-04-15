@@ -114,5 +114,55 @@ app.post('/api/datastore/:universeId/:dataStoreName/:entryKey/:scope', express.j
     
 });
 
+
+// General POST request
+app.post('/api/POST/', express.json({type: '*/*'}), async function(req, res){
+
+    // Get HEADERS
+    let headers = await req.headers;
+    let url = req.get('url-destination');
+
+    // Get Body
+    let body = await req.body;
+    let bodyString = JSON.stringify(body);
+
+    // Make the request
+    let response;
+    try{
+        response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: bodyString
+        });
+    }catch(error){
+        return res.send({error: error});
+    }
+
+    res.send({response: response, data: await response.json()});
+
+});
+
+// General GET request
+app.get('/api/GET/', async function(req, res){
+
+    // Get HEADERS
+    let headers = await req.headers;
+    let url = req.get('url-destination');
+
+
+    let response;
+    try{
+        response = await fetch(url, {
+            method: 'GET',
+            headers: headers
+        });
+    }catch(error){
+        return res.send({error: error});
+    }
+
+    res.send({response: response, data: await response.json()});
+
+});
+
 app.listen(port);
 console.log("[✅] Listening on port 3000.");
