@@ -77,7 +77,7 @@ app.get('/api/listEntries/:universeId/:datastoreName/:limit', async function(req
     //* Make the request
     let response;
     try{
-        response = await fetch(`${url}/standard-datastores/datastore/entries?datastoreName=${dataStoreName}&limit=${limit}&allScopes=true`, 
+        response = await fetch(`${url}/standard-datastores/datastore/entries?datastoreName=${dataStoreName}&limit=${limit}`, 
         {
             method: 'GET', 
             headers: headers
