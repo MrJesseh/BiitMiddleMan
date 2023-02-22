@@ -37,7 +37,7 @@ app.get('/api/universes/:universeId/standard-datastores', async function(req, re
     //* Make the request
     let response;
     try{
-        response = await fetch(`${url}/standard-datastores`, 
+        response = await fetch(`${url}/standard-datastores?limit=5`, 
         {
             method: 'GET', 
             headers: headers
