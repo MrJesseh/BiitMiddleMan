@@ -17,6 +17,43 @@ async function verifyCheckSum(data, md5){
     }
 }
 
+// List datastores
+app.get('/api/universes/:universeId/standard-datastores', async function(req, res){
+    //* Verify that an API key was passed.
+    let apiKey = await req.get('x-api-key');
+    if(apiKey == undefined){return res.send("You did not send an x-api-key header.")};
+
+
+    //* Get params
+    let params = await req.params;
+    let universeId = params.universeId;
+
+    //* Prep for request
+    let url = `https://apis.roblox.com/datastores/v1/universes/${universeId}`;
+    let headers = new Headers({
+        "x-api-key": apiKey
+    });
+
+    //* Make the request
+    let response;
+    try{
+        response = await fetch(`${url}/standard-datastores`, 
+        {
+            method: 'GET', 
+            headers: headers
+        });
+    }catch(error){
+        return res.send(error);
+    }
+
+    //* Format and send the data.
+    try{
+        let data = await response.json();
+        res.send(data);
+    }catch(error){
+        res.send({response: response, error: error});
+    }
+});
 
 //! Get an entry from datastore API
 app.get('/api/datastore/:universeId/:dataStoreName/:entryKey/:scope', async function(req, res){
@@ -145,6 +182,9 @@ app.post('/api/POST/', express.json({type: '*/*'}), async function(req, res){
 // General GET request
 app.get('/api/GET/', async function(req, res){
 
+    //console.log(req);
+    var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    console.log(ip);
     // Get HEADERS
     let headers = await req.headers;
     let url = req.get('url-destination');
