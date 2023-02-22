@@ -132,6 +132,9 @@ app.get('/api/getEntry/:universeId/:dataStoreName/:entryKey/:scope', async funct
     //* Format and send the data.
     try{
         let data = await response.data;
+        console.log(data);
+        console.log(data.json());
+        console.log(response.json());
         res.send(data);
     }catch(error){
         res.send({response: response, error: error});
